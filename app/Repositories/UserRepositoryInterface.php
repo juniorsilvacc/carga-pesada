@@ -4,5 +4,5 @@ namespace App\Repositories;
 
 interface UserRepositoryInterface
 {
-    public function getAllUsers($name = null, $perPage = 10);
+    public function getPaginate($name = null, $perPage = 5);
 }

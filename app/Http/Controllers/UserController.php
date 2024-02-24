@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -18,9 +19,9 @@ class UserController extends Controller
     {
         $name = $request->input('name');
 
-        $users = $this->service->getAllUsers($name);
+        $users = $this->service->getPaginate($name);
 
-        return $users;
+        return UserResource::collection($users);
     }
 
     public function show()

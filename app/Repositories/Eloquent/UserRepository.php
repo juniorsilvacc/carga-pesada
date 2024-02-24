@@ -14,7 +14,7 @@ class UserRepository implements UserRepositoryInterface
         $this->model = $user;
     }
 
-    public function getAllUsers($name = null, $perPage = 10)
+    public function getPaginate($name = null, $perPage = 5)
     {
         $query = $this->model->orderBy('created_at', 'asc');
 
