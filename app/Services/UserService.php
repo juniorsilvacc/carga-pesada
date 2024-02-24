@@ -24,8 +24,11 @@ class UserService
     {
     }
 
-    public function store()
+    public function createUser(array $data)
     {
+        $newUser = $this->repository->createUser($data);
+
+        return $newUser;
     }
 
     public function update()

@@ -21,8 +21,8 @@ class UserResource extends JsonResource
             'cpf' => $this->cpf,
             'rg' => $this->rg,
             'data_nascimento' => date('d-m-Y', strtotime($this->data_nascimento)),
-            'ativo' => $this->ativo == 1 ? true : false,
-            'superUser' => $this->superuser == 1 ? true : false,
+            'ativo' => $this->ativo ? true : false,
+            'superUser' => $this->superuser ? true : false,
         ];
     }
 }
