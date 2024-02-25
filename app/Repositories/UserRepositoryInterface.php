@@ -9,4 +9,6 @@ interface UserRepositoryInterface
     public function createUser(array $data);
 
     public function getById(string $userId);
+
+    public function updateUser(array $data, string $userId);
 }

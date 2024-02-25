@@ -40,4 +40,13 @@ class UserRepository implements UserRepositoryInterface
 
         return $user;
     }
+
+    public function updateUser(array $data, string $userId)
+    {
+        $user = $this->model->findOrFail($userId);
+
+        $user->update($data);
+
+        return $user;
+    }
 }

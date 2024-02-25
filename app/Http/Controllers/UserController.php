@@ -48,8 +48,11 @@ class UserController extends Controller
         ], 201);
     }
 
-    public function update(Request $request)
+    public function update(StoreUpdateUser $request, $userId)
     {
+        $user = $this->service->updateUser($request->validated(), $userId);
+
+        return new UserResource($user);
     }
 
     public function destroy()

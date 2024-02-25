@@ -34,8 +34,11 @@ class UserService
         return $newUser;
     }
 
-    public function update()
+    public function updateUser(array $data, string $userId)
     {
+        $user = $this->repository->updateUser($data, $userId);
+
+        return $user;
     }
 
     public function destroy()

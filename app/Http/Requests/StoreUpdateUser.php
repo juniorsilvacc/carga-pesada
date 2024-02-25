@@ -30,17 +30,17 @@ class StoreUpdateUser extends FormRequest
             'email' => [
                 'required',
                 'email',
-                'unique:users',
+                "unique:users,email,{$this->id},id",
             ],
             'cpf' => [
                 'required',
                 'size:11',
-                'unique:users',
+                "unique:users,cpf,{$this->id},id",
             ],
             'rg' => [
                 'required',
                 'size:8',
-                'unique:users',
+                "unique:users,rg,{$this->id},id",
             ],
             'data_nascimento' => [
                 'required',
