@@ -25,8 +25,15 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function show()
+    public function show($userId)
     {
+        $user = $this->service->getById($userId);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado.'], 404);
+        }
+
+        return new UserResource($user);
     }
 
     public function store(StoreUpdateUser $request)

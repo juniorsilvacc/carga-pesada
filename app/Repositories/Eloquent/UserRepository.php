@@ -33,4 +33,11 @@ class UserRepository implements UserRepositoryInterface
 
         return $newUser;
     }
+
+    public function getById(string $userId)
+    {
+        $user = $this->model->where('id', $userId)->first();
+
+        return $user;
+    }
 }

@@ -20,8 +20,11 @@ class UserService
         return $users;
     }
 
-    public function show()
+    public function getById($userId)
     {
+        $user = $this->repository->getById($userId);
+
+        return $user;
     }
 
     public function createUser(array $data)
