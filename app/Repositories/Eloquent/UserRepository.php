@@ -49,4 +49,15 @@ class UserRepository implements UserRepositoryInterface
 
         return $user;
     }
+
+    public function deleteUser(string $userId)
+    {
+        $user = $this->model->where('id', $userId)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado.'], 404);
+        }
+
+        $user->delete();
+    }
 }

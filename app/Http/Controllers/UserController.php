@@ -55,7 +55,8 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function destroy()
+    public function destroy($userId)
     {
+        return $this->service->deleteUser($userId);
     }
 }

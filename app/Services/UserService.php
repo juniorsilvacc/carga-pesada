@@ -41,7 +41,8 @@ class UserService
         return $user;
     }
 
-    public function destroy()
+    public function deleteUser(string $userId)
     {
+        return $this->repository->deleteUser($userId);
     }
 }
