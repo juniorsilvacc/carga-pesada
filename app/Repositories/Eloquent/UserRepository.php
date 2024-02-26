@@ -60,4 +60,11 @@ class UserRepository implements UserRepositoryInterface
 
         $user->delete();
     }
+
+    public function findByCpf(string $cpf)
+    {
+        $user = $this->model->where('cpf', $cpf)->first();
+
+        return $user;
+    }
 }

@@ -13,4 +13,6 @@ interface UserRepositoryInterface
     public function updateUser(array $data, string $userId);
 
     public function deleteUser(string $userId);
+
+    public function findByCpf(string $cpf);
 }
