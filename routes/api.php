@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PermissionUserController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,8 @@ Route::post('/v1/login/check-token', [AuthController::class, 'checkToken'])->nam
 Route::post('/v1/login/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth:sanctum');
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
+    Route::post('/users/{id}/permissions/sync', [PermissionUserController::class, 'syncPermissionUser'])->name('permissions.user.sync');
+
     // Users
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');

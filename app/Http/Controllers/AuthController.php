@@ -40,8 +40,10 @@ class AuthController extends Controller
         $user = Auth::user();
 
         if ($user) {
+            $user->load('permissions');
+
             return response()->json([
-                'user' => $user,
+                'user' => new UserResource($user),
             ]);
         } else {
             return response()->json([

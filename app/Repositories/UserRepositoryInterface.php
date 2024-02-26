@@ -15,4 +15,6 @@ interface UserRepositoryInterface
     public function deleteUser(string $userId);
 
     public function findByCpf(string $cpf);
+
+    public function syncPermissions(string $userId, array $permissions): ?bool;
 }

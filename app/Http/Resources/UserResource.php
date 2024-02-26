@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'data_nascimento' => date('d-m-Y', strtotime($this->data_nascimento)),
             'ativo' => $this->ativo ? true : false,
             'superUser' => $this->superuser ? true : false,
+            'permissions' => PermissionResource::collection($this->whenLoaded('permissions')),
         ];
     }
 }

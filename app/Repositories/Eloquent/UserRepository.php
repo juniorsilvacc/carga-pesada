@@ -16,7 +16,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getPaginate($name = null, $perPage = 5)
     {
-        $query = $this->model->orderBy('created_at', 'asc');
+        $query = $this->model->with('permissions')->orderBy('created_at', 'asc');
 
         if ($name !== null) {
             $query->where('name', 'LIKE', "%{$name}%");
@@ -36,7 +36,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getById(string $userId)
     {
-        $user = $this->model->where('id', $userId)->first();
+        $user = $this->model->with('permissions')->where('id', $userId)->first();
 
         return $user;
     }
@@ -66,5 +66,18 @@ class UserRepository implements UserRepositoryInterface
         $user = $this->model->where('cpf', $cpf)->first();
 
         return $user;
+    }
+
+    public function syncPermissions(string $userId, array $permissions): ?bool
+    {
+        $user = $this->model->where('id', $userId)->first();
+
+        if (!$user) {
+            return null;
+        }
+
+        $user->permissions()->sync($permissions);
+
+        return true;
     }
 }

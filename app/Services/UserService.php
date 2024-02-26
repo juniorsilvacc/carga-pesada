@@ -45,4 +45,11 @@ class UserService
     {
         return $this->repository->deleteUser($userId);
     }
+
+    public function syncPermissions(string $userId, array $permissions)
+    {
+        $permissionsUser = $this->repository->syncPermissions($userId, $permissions);
+
+        return $permissionsUser;
+    }
 }
