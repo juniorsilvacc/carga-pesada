@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/v1/login/access-token', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/v1/login/check-token', [AuthController::class, 'checkToken'])->name('auth.check-token')->middleware('auth:sanctum');
+Route::post('/v1/login/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth:sanctum');
 
-Route::prefix('v1')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     // Users
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
