@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionUserController;
+use App\Http\Controllers\TruckController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,11 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::post('/permissions', [PermissionController::class, 'store'])->name('permissions.store');
     Route::get('/permissions/{id}', [PermissionController::class, 'show'])->name('permissions.show');
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
+
+    // Trucks
+    Route::delete('/trucks/{id}', [TruckController::class, 'destroy'])->name('trucks.destroy');
+    Route::put('/trucks/{id}', [TruckController::class, 'update'])->name('trucks.update');
+    Route::post('/trucks', [TruckController::class, 'store'])->name('trucks.store');
+    Route::get('/trucks/{id}', [TruckController::class, 'show'])->name('trucks.show');
+    Route::get('/trucks', [TruckController::class, 'index'])->name('trucks.index');
 });
