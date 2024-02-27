@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionUserController;
+use App\Http\Controllers\TravelController;
 use App\Http\Controllers\TruckController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,11 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::post('/drivers', [DriverController::class, 'store'])->name('drivers.store');
     Route::get('/drivers/{id}', [DriverController::class, 'show'])->name('drivers.show');
     Route::get('/drivers', [DriverController::class, 'index'])->name('drivers.index');
+
+    // Travels
+    Route::delete('/travels/{id}', [TravelController::class, 'destroy'])->name('travels.destroy');
+    Route::put('/travels/{id}', [TravelController::class, 'update'])->name('travels.update');
+    Route::post('/travels', [TravelController::class, 'store'])->name('travels.store');
+    Route::get('/travels/{id}', [TravelController::class, 'show'])->name('travels.show');
+    Route::get('/travels', [TravelController::class, 'index'])->name('travels.index');
 });

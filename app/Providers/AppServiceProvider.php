@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Repositories\DriverRepositoryInterface;
 use App\Repositories\Eloquent\DriverRepository;
 use App\Repositories\Eloquent\PermissionRepository;
+use App\Repositories\Eloquent\TravelRepository;
 use App\Repositories\Eloquent\TruckRepository;
 use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\PermissionRepositoryInterface;
+use App\Repositories\TravelRepositoryInterface;
 use App\Repositories\TruckRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -37,6 +39,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             DriverRepositoryInterface::class,
             DriverRepository::class,
+        );
+
+        $this->app->bind(
+            TravelRepositoryInterface::class,
+            TravelRepository::class,
         );
     }
 
