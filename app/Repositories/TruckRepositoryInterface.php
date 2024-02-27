@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 interface TruckRepositoryInterface
 {
-    public function getPaginate($plate = null, $perPage = 5);
+    public function getPaginate($placa = null, $perPage = 5);
 
     public function createTruck(array $data);
 

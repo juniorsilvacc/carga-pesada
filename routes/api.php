@@ -37,4 +37,6 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 
     // Drivers
     Route::post('/drivers', [DriverController::class, 'store'])->name('drivers.store');
+    Route::get('/drivers/{id}', [DriverController::class, 'show'])->name('drivers.show');
+    Route::get('/drivers', [DriverController::class, 'index'])->name('drivers.index');
 });

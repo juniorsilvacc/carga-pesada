@@ -14,12 +14,12 @@ class PermissionRepository implements PermissionRepositoryInterface
         $this->model = $permission;
     }
 
-    public function getPaginate($name = null, $perPage = 5)
+    public function getPaginate($nome = null, $perPage = 5)
     {
         $query = $this->model->orderBy('created_at', 'asc');
 
-        if ($name !== null) {
-            $query->where('name', 'LIKE', "%{$name}%");
+        if ($nome !== null) {
+            $query->where('nome', 'LIKE', "%{$nome}%");
         }
 
         $permissions = $query->paginate($perPage);

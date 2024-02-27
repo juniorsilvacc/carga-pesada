@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 interface PermissionRepositoryInterface
 {
-    public function getPaginate($name = null, $perPage = 5);
+    public function getPaginate($nome = null, $perPage = 5);
 
     public function createPermission(array $data);
 

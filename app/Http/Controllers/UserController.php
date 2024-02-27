@@ -18,9 +18,10 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $name = $request->input('name');
+        $nome = $request->input('nome');
+        $cpf = $request->input('cpf');
 
-        $users = $this->service->getPaginate($name);
+        $users = $this->service->getPaginate($nome, $cpf);
 
         return UserResource::collection($users);
     }

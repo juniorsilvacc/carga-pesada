@@ -14,12 +14,16 @@ class UserRepository implements UserRepositoryInterface
         $this->model = $user;
     }
 
-    public function getPaginate($name = null, $perPage = 5)
+    public function getPaginate($nome = null, $cpf = null, $perPage = 5)
     {
         $query = $this->model->with('permissions')->orderBy('created_at', 'asc');
 
-        if ($name !== null) {
-            $query->where('name', 'LIKE', "%{$name}%");
+        if ($nome !== null) {
+            $query->where('nome', 'LIKE', "%{$nome}%");
+        }
+
+        if ($cpf !== null) {
+            $query->where('cpf', 'LIKE', "%{$cpf}%");
         }
 
         $users = $query->paginate($perPage);

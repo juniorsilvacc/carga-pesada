@@ -20,4 +20,28 @@ class DriverRepository implements DriverRepositoryInterface
 
         return $newDriver;
     }
+
+    public function getPaginate($nome = null, $cpf = null, $perPage = 5)
+    {
+        $query = $this->model->orderBy('created_at', 'asc');
+
+        if ($nome !== null) {
+            $query->where('nome', 'LIKE', "%{$nome}%");
+        }
+
+        if ($cpf !== null) {
+            $query->where('cpf', 'LIKE', "%{$cpf}%");
+        }
+
+        $drivers = $query->paginate($perPage);
+
+        return $drivers;
+    }
+
+    public function getById(string $driverId)
+    {
+        $driver = $this->model->where('id', $driverId)->first();
+
+        return $driver;
+    }
 }

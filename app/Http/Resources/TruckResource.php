@@ -16,10 +16,10 @@ class TruckResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'plate' => $this->plate,
+            'placa' => $this->placa,
             'renavan' => $this->renavan,
             'antt' => $this->antt,
-            'modality' => $this->modality,
+            'modalidade' => $this->modalidade,
         ];
     }
 }

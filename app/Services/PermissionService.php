@@ -13,9 +13,9 @@ class PermissionService
         $this->repository = $repository;
     }
 
-    public function getPaginate($name = null)
+    public function getPaginate($nome = null)
     {
-        $permissions = $this->repository->getPaginate($name);
+        $permissions = $this->repository->getPaginate($nome);
 
         return $permissions;
     }

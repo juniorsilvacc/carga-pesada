@@ -18,9 +18,9 @@ class PermissionController extends Controller
 
     public function index(Request $request)
     {
-        $name = $request->input('name');
+        $nome = $request->input('nome');
 
-        $permissions = $this->service->getPaginate($name);
+        $permissions = $this->service->getPaginate($nome);
 
         return PermissionResource::collection($permissions);
     }

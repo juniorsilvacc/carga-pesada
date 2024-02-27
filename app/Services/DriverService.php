@@ -25,4 +25,18 @@ class DriverService
 
         return $newDriver;
     }
+
+    public function getPaginate($nome = null, $cpf = null)
+    {
+        $drivers = $this->repository->getPaginate($nome, $cpf);
+
+        return $drivers;
+    }
+
+    public function getById($driverId)
+    {
+        $driver = $this->repository->getById($driverId);
+
+        return $driver;
+    }
 }

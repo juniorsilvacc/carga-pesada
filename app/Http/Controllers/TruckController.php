@@ -18,9 +18,9 @@ class TruckController extends Controller
 
     public function index(Request $request)
     {
-        $plate = $request->input('plate');
+        $placa = $request->input('placa');
 
-        $trucks = $this->service->getPaginate($plate);
+        $trucks = $this->service->getPaginate($placa);
 
         return TruckResource::collection($trucks);
     }

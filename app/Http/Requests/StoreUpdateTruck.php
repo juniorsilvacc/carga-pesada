@@ -22,10 +22,10 @@ class StoreUpdateTruck extends FormRequest
     public function rules(): array
     {
         return [
-            'plate' => [
+            'placa' => [
                 'required',
                 'size:7',
-                "unique:trucks,plate,{$this->id},id",
+                "unique:trucks,placa,{$this->id},id",
             ],
             'renavan' => [
                 'required',
@@ -35,7 +35,7 @@ class StoreUpdateTruck extends FormRequest
             'antt' => [
                 'size:11',
             ],
-            'modality' => [
+            'modalidade' => [
                 'required',
                 'min:3',
                 'max:255',

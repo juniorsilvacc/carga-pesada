@@ -13,9 +13,9 @@ class TruckService
         $this->repository = $repository;
     }
 
-    public function getPaginate($plate = null)
+    public function getPaginate($placa = null)
     {
-        $trucks = $this->repository->getPaginate($plate);
+        $trucks = $this->repository->getPaginate($placa);
 
         return $trucks;
     }

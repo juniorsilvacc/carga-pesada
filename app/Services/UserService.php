@@ -13,9 +13,9 @@ class UserService
         $this->repository = $repository;
     }
 
-    public function getPaginate($name = null)
+    public function getPaginate($nome = null, $cpf = null)
     {
-        $users = $this->repository->getPaginate($name);
+        $users = $this->repository->getPaginate($nome, $cpf);
 
         return $users;
     }

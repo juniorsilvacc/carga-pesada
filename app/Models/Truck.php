@@ -12,9 +12,9 @@ class Truck extends Model
     use HasUuids;
 
     protected $fillable = [
-        'plate',
+        'placa',
         'renavan',
         'antt',
-        'modality',
+        'modalidade',
     ];
 }

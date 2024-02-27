@@ -12,10 +12,10 @@ return new class() extends Migration {
     {
         Schema::create('trucks', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('plate');
+            $table->string('placa');
             $table->string('renavan');
             $table->string('antt');
-            $table->string('modality');
+            $table->string('modalidade');
             $table->timestamps();
         });
     }

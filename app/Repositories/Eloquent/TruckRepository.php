@@ -14,12 +14,12 @@ class TruckRepository implements TruckRepositoryInterface
         $this->model = $truck;
     }
 
-    public function getPaginate($plate = null, $perPage = 5)
+    public function getPaginate($placa = null, $perPage = 5)
     {
         $query = $this->model->orderBy('created_at', 'asc');
 
-        if ($plate !== null) {
-            $query->where('plate', 'LIKE', "%{$plate}%");
+        if ($placa !== null) {
+            $query->where('placa', 'LIKE', "%{$placa}%");
         }
 
         $trucks = $query->paginate($perPage);
