@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionUserController;
 use App\Http\Controllers\TruckController;
@@ -12,8 +13,6 @@ Route::post('/v1/login/check-token', [AuthController::class, 'checkToken'])->nam
 Route::post('/v1/login/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth:sanctum');
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::post('/users/{id}/permissions/sync', [PermissionUserController::class, 'syncPermissionUser'])->name('permissions.user.sync');
-
     // Users
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
@@ -22,6 +21,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
     // Permissions
+    Route::post('/users/{id}/permissions/sync', [PermissionUserController::class, 'syncPermissionUser'])->name('permissions.user.sync');
     Route::delete('/permissions/{id}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
     Route::put('/permissions/{id}', [PermissionController::class, 'update'])->name('permissions.update');
     Route::post('/permissions', [PermissionController::class, 'store'])->name('permissions.store');
@@ -34,4 +34,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::post('/trucks', [TruckController::class, 'store'])->name('trucks.store');
     Route::get('/trucks/{id}', [TruckController::class, 'show'])->name('trucks.show');
     Route::get('/trucks', [TruckController::class, 'index'])->name('trucks.index');
+
+    // Drivers
+    Route::post('/drivers', [DriverController::class, 'store'])->name('drivers.store');
 });
