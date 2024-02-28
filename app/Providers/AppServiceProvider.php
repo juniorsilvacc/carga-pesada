@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\ContactRepositoryInterface;
 use App\Repositories\DriverRepositoryInterface;
+use App\Repositories\Eloquent\ContactRepository;
 use App\Repositories\Eloquent\DriverRepository;
 use App\Repositories\Eloquent\NoteRepository;
 use App\Repositories\Eloquent\PermissionRepository;
@@ -51,6 +53,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             NoteRepositoryInterface::class,
             NoteRepository::class,
+        );
+
+        $this->app->bind(
+            ContactRepositoryInterface::class,
+            ContactRepository::class,
         );
     }
 

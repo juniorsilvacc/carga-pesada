@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PermissionController;
@@ -55,4 +56,11 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
     Route::get('/notes/{id}', [NoteController::class, 'show'])->name('notes.show');
     Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
+
+    // Contacts
+    Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+    Route::put('/contacts/{id}', [ContactController::class, 'update'])->name('contacts.update');
+    Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+    Route::get('/contacts/{id}', [ContactController::class, 'show'])->name('contacts.show');
+    Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
 });

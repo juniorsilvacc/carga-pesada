@@ -24,6 +24,10 @@ class TravelRepository implements TravelRepositoryInterface
 
         $travels = $query->paginate($perPage);
 
+        $subTotal = $travels->calculateSubTotal();
+
+        $travels->subTotal = $subTotal;
+
         return $travels;
     }
 
