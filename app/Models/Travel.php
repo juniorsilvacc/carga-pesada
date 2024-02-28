@@ -38,6 +38,17 @@ class Travel extends Model
 
     public function notes(): HasMany
     {
-        return $this->hasMany(Note::class);
+        return $this->hasMany(Note::class, 'viagem_id');
+    }
+
+    public function calculateSubTotal(): float
+    {
+        $subTotal = 0;
+
+        foreach ($this->notes as $note) {
+            $subTotal += $note->valor;
+        }
+
+        return $subTotal;
     }
 }

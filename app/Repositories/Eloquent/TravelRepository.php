@@ -16,7 +16,7 @@ class TravelRepository implements TravelRepositoryInterface
 
     public function getPaginate($motorista = null, $perPage = 5)
     {
-        $query = $this->model->orderBy('created_at', 'asc');
+        $query = $this->model->with('notes')->orderBy('created_at', 'asc');
 
         if ($motorista !== null) {
             $query->where('motorista', 'LIKE', "%{$motorista}%");
@@ -36,7 +36,11 @@ class TravelRepository implements TravelRepositoryInterface
 
     public function getById(string $travelId)
     {
-        $travel = $this->model->where('id', $travelId)->first();
+        $travel = $this->model->with('notes')->where('id', $travelId)->first();
+
+        $subTotal = $travel->calculateSubTotal();
+
+        $travel->subTotal = $subTotal;
 
         return $travel;
     }

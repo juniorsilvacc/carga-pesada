@@ -25,6 +25,7 @@ class TravelResource extends JsonResource
             'motorista_id' => $this->motorista_id,
             'caminhao_id' => $this->caminhao_id,
             'notas' => NoteResource::collection($this->whenLoaded('notes')),
+            'subTotal' => $this->subTotal,
         ];
     }
 }
