@@ -10,7 +10,7 @@ return new class() extends Migration {
      */
     public function up(): void
     {
-        Schema::create('travel', function (Blueprint $table) {
+        Schema::create('travels', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('cidade_saida');
             $table->string('cidade_destino');
@@ -29,6 +29,6 @@ return new class() extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('travel');
+        Schema::dropIfExists('travels');
     }
 };

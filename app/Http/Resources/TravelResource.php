@@ -24,6 +24,7 @@ class TravelResource extends JsonResource
             'data_viagem' => $this->data_viagem,
             'motorista_id' => $this->motorista_id,
             'caminhao_id' => $this->caminhao_id,
+            'notas' => NoteResource::collection($this->whenLoaded('notes')),
         ];
     }
 }

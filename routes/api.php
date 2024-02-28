@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PermissionUserController;
 use App\Http\Controllers\TravelController;
@@ -47,4 +48,11 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::post('/travels', [TravelController::class, 'store'])->name('travels.store');
     Route::get('/travels/{id}', [TravelController::class, 'show'])->name('travels.show');
     Route::get('/travels', [TravelController::class, 'index'])->name('travels.index');
+
+    // Notes
+    Route::delete('/notes/{id}', [NoteController::class, 'destroy'])->name('notes.destroy');
+    Route::put('/notes/{id}', [NoteController::class, 'update'])->name('notes.update');
+    Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
+    Route::get('/notes/{id}', [NoteController::class, 'show'])->name('notes.show');
+    Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
 });
