@@ -1,0 +1,2259 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API - Carga Pesada",
+        "description": "API RESTFul Carga Pesada",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/login/access-token": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login",
+                "operationId": "a3d8305ac0eb002633c8fe6aa3e3b08a",
+                "requestBody": {
+                    "description": "Dados de autenticação",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cpf",
+                                    "password",
+                                    "device_name"
+                                ],
+                                "properties": {
+                                    "cpf": {
+                                        "type": "string",
+                                        "example": "12345678900"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "auth"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuário autenticado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "token"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/Autenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided credentials are incorrect."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/login/check-token": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Verifica se o token de acesso é válido",
+                "operationId": "f04f47827fa518afab7a0104f6fbbd52",
+                "responses": {
+                    "200": {
+                        "description": "Usuário autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido ou expirado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/login/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Deslogar o usuário",
+                "operationId": "c15d14b0dd6d48885812c11fa686461b",
+                "responses": {
+                    "200": {
+                        "description": "Logout bem-sucedido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout bem-sucedido."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/contacts": {
+            "get": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Listar todos os contatos",
+                "operationId": "852ed2762dbbe0a94ccfc4c97587621a",
+                "responses": {
+                    "200": {
+                        "description": "Lista de contatos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Contact"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Criar um novo contato",
+                "operationId": "379869295076c3201047aea1a0ece726",
+                "requestBody": {
+                    "description": "Dados do novo contato",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do contato",
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "description": "Número de telefone do contato",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Contato criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contato criado com sucesso."
+                                        },
+                                        "contact": {
+                                            "$ref": "#/components/schemas/Contact"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/contacts/{id}": {
+            "get": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Obter detalhes de um contato específico",
+                "operationId": "b50e403e9334c34bf4a1d319a863d3e7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do contato",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do contato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contato não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contato não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Atualizar um contato existente",
+                "operationId": "a6027289e451f3cd7ddfec1b24203aae",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do contato a ser atualizado",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados do contato a ser atualizado",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateContact"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contato atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Contact"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contato não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Excluir um contato",
+                "operationId": "564a2f7f26488abf9de14d86fac81557",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do contato a ser excluído",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contato excluído com sucesso"
+                    },
+                    "404": {
+                        "description": "Contato não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/drivers": {
+            "get": {
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Listar todos os motoristas",
+                "operationId": "4cea0d334de40c00c0b375e65126e7e5",
+                "parameters": [
+                    {
+                        "name": "nome",
+                        "in": "query",
+                        "description": "Filtrar por nome",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "cpf",
+                        "in": "query",
+                        "description": "Filtrar por cpf",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de motoristas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Driver"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Criar um novo motorista",
+                "operationId": "d58b909c3a3eb72be38ffe5f7a7315e4",
+                "requestBody": {
+                    "description": "Dados do novo motorista",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateDriver"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Motorista criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Motorista criado com sucesso."
+                                        },
+                                        "driver": {
+                                            "$ref": "#/components/schemas/Driver"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/drivers/{id}": {
+            "get": {
+                "tags": [
+                    "Driver"
+                ],
+                "summary": "Obter detalhes de um motorista específico",
+                "operationId": "40eeb1f7fdd478c840f3c42d22b2baed",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do motorista",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do motorista",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Driver"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Motorista não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Motorista não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/notes": {
+            "get": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Listar todas as notas",
+                "operationId": "13d45fc8b7335b9bb262c654c31c9814",
+                "parameters": [
+                    {
+                        "name": "cidade",
+                        "in": "query",
+                        "description": "Filtrar por cidade",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de notas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Note"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Criar uma nova nota",
+                "operationId": "a1ba52eb868ae49c16b4b219c2fe6c15",
+                "requestBody": {
+                    "description": "Dados da nova nota",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateNote"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Nota criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nota criada com sucesso."
+                                        },
+                                        "note": {
+                                            "$ref": "#/components/schemas/Note"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/notes/{id}": {
+            "get": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Obter detalhes de uma nota específica",
+                "operationId": "52f58d9f550f35e0a391673bba6a598d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da nota",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes da nota",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Note"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nota não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nota não encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Atualizar uma nota existente",
+                "operationId": "872eaa2ec57b2e5e55a17284a5bf6e0b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da nota a ser atualizada",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados da nota a ser atualizada",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateNote"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Nota atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Note"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nota não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Deletar uma nota existente",
+                "operationId": "dae4c0fc408e565e17f0dea75900d0e6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da nota a ser deletada",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Nota deletada com sucesso"
+                    },
+                    "404": {
+                        "description": "Nota não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/permissions": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Listar todas as permissões",
+                "operationId": "3ed6e7ff721a632320b8fe3c4a8c11ee",
+                "parameters": [
+                    {
+                        "name": "nome",
+                        "in": "query",
+                        "description": "Filtrar por nome",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de permissões",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Permission"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Criar uma nova permissão",
+                "operationId": "1535f9bb11e0c73c0f5f12d65fae99b2",
+                "requestBody": {
+                    "description": "Dados da nova permissão",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdatePermission"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Permissão criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Permissão criada com sucesso."
+                                        },
+                                        "permission": {
+                                            "$ref": "#/components/schemas/Permission"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/permissions/{id}": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Obter detalhes de uma permissão específica",
+                "operationId": "42c08bfb1da681cdaf0a595146308f0e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da permissão",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes da permissão",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Permission"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Permissão não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Permissão não encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Atualizar uma permissão existente",
+                "operationId": "dbe1d1689f32bf257bd397f01803fd44",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da permissão a ser atualizada",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados da permissão a ser atualizada",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdatePermission"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Permissão atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Permission"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Permissão não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Deletar uma permissão existente",
+                "operationId": "177c482370c65e974f14d3e72e055666",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da permissão a ser deletada",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Permissão deletada com sucesso"
+                    },
+                    "404": {
+                        "description": "Permissão não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{userId}/permissions/sync": {
+            "post": {
+                "tags": [
+                    "Permissions"
+                ],
+                "summary": "Sincronizar permissões de usuário",
+                "operationId": "e32ab6f198679e30afc24d108054f0a6",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Lista de IDs de permissões para sincronizar",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "permissions"
+                                ],
+                                "properties": {
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "description": "ID da permissão",
+                                            "type": "string",
+                                            "format": "uuid"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Permissões de usuário sincronizadas com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuário não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/travels": {
+            "get": {
+                "tags": [
+                    "Travel"
+                ],
+                "summary": "Listar todas as viagens",
+                "operationId": "847cdc8b2d6d4a291a206895cf3a2caa",
+                "parameters": [
+                    {
+                        "name": "motorista",
+                        "in": "query",
+                        "description": "Filtrar por Motorista",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de viagens",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Travel"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Travel"
+                ],
+                "summary": "Criar uma nova viagem",
+                "operationId": "c107800c4db07ee59e6d5a0f21176f56",
+                "requestBody": {
+                    "description": "Dados da nova viagem",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateTravel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Viagem criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Viagem criada com sucesso."
+                                        },
+                                        "travel": {
+                                            "$ref": "#/components/schemas/Travel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/travels/{id}": {
+            "get": {
+                "tags": [
+                    "Travel"
+                ],
+                "summary": "Obter detalhes de uma viagem específica",
+                "operationId": "f80fb665e6e911ac4f326ff54a8815f1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da viagem",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes da viagem",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Travel"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Viagem não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Viagem não encontrada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Travel"
+                ],
+                "summary": "Atualizar uma viagem existente",
+                "operationId": "bf9a986ff2718e4d5037fea98477ab04",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da viagem a ser atualizada",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados da viagem a ser atualizada",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateTravel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Viagem atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Travel"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Viagem não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Travel"
+                ],
+                "summary": "Deletar uma viagem existente",
+                "operationId": "c9d2453aaf3aa772915af46df797b490",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da viagem a ser deletada",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Viagem deletada com sucesso"
+                    },
+                    "404": {
+                        "description": "Viagem não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/trucks": {
+            "get": {
+                "tags": [
+                    "Truck"
+                ],
+                "summary": "Listar todos os caminhões",
+                "operationId": "5e313aabff2f7cd61398bb6a2298654f",
+                "parameters": [
+                    {
+                        "name": "placa",
+                        "in": "query",
+                        "description": "Filtrar por placa",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de caminhões",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Truck"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Truck"
+                ],
+                "summary": "Criar um novo caminhão",
+                "operationId": "4d02fc463a4e4195bda4aeac352f4e8f",
+                "requestBody": {
+                    "description": "Dados do novo caminhão",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateTruck"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Caminhão criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Caminhão criado com sucesso."
+                                        },
+                                        "truck": {
+                                            "$ref": "#/components/schemas/Truck"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/trucks/{id}": {
+            "get": {
+                "tags": [
+                    "Truck"
+                ],
+                "summary": "Obter detalhes de um caminhão específico",
+                "operationId": "708f83837dba14f3d26ec88979e93494",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do caminhão",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do caminhão",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Truck"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Caminhão não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Caminhão não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Truck"
+                ],
+                "summary": "Atualizar um caminhão existente",
+                "operationId": "57bcb68fb057953b892077b8cfb3e0bf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do caminhão a ser atualizado",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados do caminhão a ser atualizado",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateTruck"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Caminhão atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Truck"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Caminhão não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Truck"
+                ],
+                "summary": "Deletar um caminhão existente",
+                "operationId": "b6a790d4e05e113a8875e12f4b5161a8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do caminhão a ser deletado",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Caminhão deletado com sucesso"
+                    },
+                    "404": {
+                        "description": "Caminhão não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Listar todos os usuários",
+                "operationId": "3ab81e3f9b24b4f36ab08d72349ac632",
+                "parameters": [
+                    {
+                        "name": "nome",
+                        "in": "query",
+                        "description": "Filtrar por nome",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "cpf",
+                        "in": "query",
+                        "description": "Filtrar por CPF",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuários",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Criar um novo usuário",
+                "operationId": "ba548b97148bb5c0d8cab3bc3f128bfd",
+                "requestBody": {
+                    "description": "Dados do novo usuário",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuário criado com sucesso."
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Obter detalhes de um usuário específico",
+                "operationId": "daaf7a6169ee9348c3fddb07778598ff",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do usuário",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuário não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Atualizar um usuário existente",
+                "operationId": "59e98fba99e974815e27979dd58e2175",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do usuário a ser atualizado",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados do usuário a ser atualizado",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUpdateUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuário atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Deletar um usuário existente",
+                "operationId": "c30c64b8b7730b65c7714c9af4a6f5fa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do usuário a ser deletado",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuário deletado com sucesso"
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Autenticated": {
+                "required": [
+                    "id",
+                    "cpf",
+                    "password",
+                    "device_name"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único do contato (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "cpf": {
+                        "description": "CPF",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string"
+                    },
+                    "device_name": {
+                        "description": "device_name",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "required": [
+                    "id",
+                    "nome",
+                    "email",
+                    "cpf",
+                    "rg",
+                    "data_nascimento",
+                    "ativo",
+                    "superUser",
+                    "permissions"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único do usuário",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "nome": {
+                        "description": "Nome completo do usuário",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Endereço de e-mail do usuário",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "cpf": {
+                        "description": "Número do CPF do usuário",
+                        "type": "string"
+                    },
+                    "rg": {
+                        "description": "Número do RG do usuário",
+                        "type": "string"
+                    },
+                    "data_nascimento": {
+                        "description": "Data de nascimento do usuário (no formato YYYY-MM-DD)",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "ativo": {
+                        "description": "Indica se o usuário está ativo ou não",
+                        "type": "boolean"
+                    },
+                    "superUser": {
+                        "description": "Indica se o usuário possui privilégios de super usuário",
+                        "type": "boolean"
+                    },
+                    "permissions": {
+                        "description": "Lista de permissões do usuário",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Permission"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Permission": {
+                "title": "Permission",
+                "required": [
+                    "id",
+                    "nome",
+                    "descricao"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único da permissão",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "nome": {
+                        "description": "Nome da permissão",
+                        "type": "string"
+                    },
+                    "descricao": {
+                        "description": "Descrição da permissão",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Contact": {
+                "required": [
+                    "id",
+                    "nome",
+                    "phone"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único do contato (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "nome": {
+                        "description": "Nome do contato",
+                        "type": "string"
+                    },
+                    "phone": {
+                        "description": "Número de telefone do contato",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUpdateContact": {
+                "title": "StoreUpdateContact",
+                "required": [
+                    "nome",
+                    "phone"
+                ],
+                "properties": {
+                    "nome": {
+                        "description": "Nome do contato",
+                        "type": "string"
+                    },
+                    "phone": {
+                        "description": "Número de telefone do contato",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Driver": {
+                "required": [
+                    "id",
+                    "nome",
+                    "email",
+                    "cpf",
+                    "rg",
+                    "data_nascimento",
+                    "password"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único do motorista (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "nome": {
+                        "description": "Nome",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string"
+                    },
+                    "cpf": {
+                        "description": "CPF",
+                        "type": "string"
+                    },
+                    "rg": {
+                        "description": "RG",
+                        "type": "string"
+                    },
+                    "data_nascimento": {
+                        "description": "Data de Nascimento",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUpdateDriver": {
+                "title": "StoreUpdateDriver",
+                "required": [
+                    "nome",
+                    "email",
+                    "cpf",
+                    "rg",
+                    "data_nascimento",
+                    "password"
+                ],
+                "properties": {
+                    "nome": {
+                        "description": "Nome",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string"
+                    },
+                    "cpf": {
+                        "description": "CPF",
+                        "type": "string"
+                    },
+                    "rg": {
+                        "description": "RG",
+                        "type": "string"
+                    },
+                    "data_nascimento": {
+                        "description": "Data de Nascimento",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Note": {
+                "required": [
+                    "id",
+                    "descricao",
+                    "cidade",
+                    "estado",
+                    "valor",
+                    "viagem_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único do caminhão (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "descricao": {
+                        "description": "Descrição",
+                        "type": "string"
+                    },
+                    "cidade": {
+                        "description": "Cidade",
+                        "type": "string"
+                    },
+                    "estado": {
+                        "description": "Estado",
+                        "type": "string"
+                    },
+                    "valor": {
+                        "description": "Valor",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "viagem_id": {
+                        "description": "ID único da viagem (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUpdateNote": {
+                "title": "StoreUpdateNote",
+                "required": [
+                    "descricao",
+                    "cidade",
+                    "estado",
+                    "valor",
+                    "viagem_id"
+                ],
+                "properties": {
+                    "descricao": {
+                        "description": "Descrição",
+                        "type": "string"
+                    },
+                    "cidade": {
+                        "description": "Cidade",
+                        "type": "string"
+                    },
+                    "estado": {
+                        "description": "Estado",
+                        "type": "string"
+                    },
+                    "valor": {
+                        "description": "Valor",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "viagem_id": {
+                        "description": "ID único da viagem (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUpdatePermission": {
+                "title": "StoreUpdatePermission",
+                "required": [
+                    "nome",
+                    "descricao"
+                ],
+                "properties": {
+                    "nome": {
+                        "description": "Nome",
+                        "type": "string"
+                    },
+                    "descricao": {
+                        "description": "Descrição",
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Travel": {
+                "required": [
+                    "id",
+                    "cidade_saida",
+                    "estado_saida",
+                    "estado_destino",
+                    "cidade_destino",
+                    "peso_carga",
+                    "motorista_id",
+                    "caminhao_id",
+                    "data_viagem"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único da viagem (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "cidade_saida": {
+                        "description": "Cidade Saída",
+                        "type": "string"
+                    },
+                    "estado_saida": {
+                        "description": "Estado Saída",
+                        "type": "string"
+                    },
+                    "cidade_destino": {
+                        "description": "Cidade Destino",
+                        "type": "string"
+                    },
+                    "estado_destino": {
+                        "description": "Estado Destino",
+                        "type": "string"
+                    },
+                    "peso_carga": {
+                        "description": "Peso Carga",
+                        "type": "string"
+                    },
+                    "data_viagem": {
+                        "description": "Peso Carga",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "caminhao_id": {
+                        "description": "ID único do caminhão (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "motorista_id": {
+                        "description": "ID único do motorista (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUpdateTravel": {
+                "title": "StoreUpdateTravel",
+                "required": [
+                    "id",
+                    "cidade_saida",
+                    "estado_saida",
+                    "estado_destino",
+                    "cidade_destino",
+                    "peso_carga",
+                    "motorista_id",
+                    "caminhao_id",
+                    "data_viagem"
+                ],
+                "properties": {
+                    "cidade_saida": {
+                        "description": "Cidade Saída",
+                        "type": "string"
+                    },
+                    "estado_saida": {
+                        "description": "Estado Saída",
+                        "type": "string"
+                    },
+                    "cidade_destino": {
+                        "description": "Cidade Destino",
+                        "type": "string"
+                    },
+                    "estado_destino": {
+                        "description": "Estado Destino",
+                        "type": "string"
+                    },
+                    "peso_carga": {
+                        "description": "Peso Carga",
+                        "type": "string"
+                    },
+                    "data_viagem": {
+                        "description": "Peso Carga",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "caminhao_id": {
+                        "description": "ID único do caminhão (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "motorista_id": {
+                        "description": "ID único do motorista (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "type": "object"
+            },
+            "Truck": {
+                "required": [
+                    "id",
+                    "placa",
+                    "renavan",
+                    "antt",
+                    "modalidade"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único do caminhão (UUID)",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "placa": {
+                        "description": "Placa",
+                        "type": "string"
+                    },
+                    "renavan": {
+                        "description": "Renavan",
+                        "type": "string"
+                    },
+                    "antt": {
+                        "description": "Antt",
+                        "type": "string"
+                    },
+                    "modalidade": {
+                        "description": "Modalidade",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUpdateTruck": {
+                "title": "StoreUpdateTruck",
+                "required": [
+                    "placa",
+                    "renavan",
+                    "antt",
+                    "modalidade"
+                ],
+                "properties": {
+                    "placa": {
+                        "description": "Placa",
+                        "type": "string"
+                    },
+                    "renavan": {
+                        "description": "Renavan",
+                        "type": "string"
+                    },
+                    "antt": {
+                        "description": "Antt",
+                        "type": "string"
+                    },
+                    "modalidade": {
+                        "description": "Modalidade",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUpdateUser": {
+                "title": "StoreUpdateUser",
+                "required": [
+                    "nome",
+                    "email",
+                    "cpf",
+                    "rg",
+                    "data_nascimento",
+                    "password"
+                ],
+                "properties": {
+                    "nome": {
+                        "description": "Nome",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string"
+                    },
+                    "cpf": {
+                        "description": "CPF",
+                        "type": "string"
+                    },
+                    "rg": {
+                        "description": "RG",
+                        "type": "string"
+                    },
+                    "data_nascimento": {
+                        "description": "Data de Nascimento",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
