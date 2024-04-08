@@ -87,6 +87,10 @@ class UserRepository implements UserRepositoryInterface
 
     public function hasPermission(User $user, string $permissionName): bool
     {
+        if ($user->isSuperAdmin() && $user->superuser == 1) {
+            return true;
+        }
+
         return $user->permissions()->where('nome', $permissionName)->exists();
     }
 }

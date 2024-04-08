@@ -15,11 +15,11 @@ Route::post('/api/v1/login/access-token', [AuthController::class, 'login'])->nam
 Route::post('/api/v1/login/check-token', [AuthController::class, 'checkToken'])->name('auth.check-token')->middleware('auth:sanctum');
 Route::post('/api/v1/login/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth:sanctum');
 
-Route::middleware(['auth:sanctum', 'acl'])->prefix('api/v1/')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('api/v1/')->group(function () {
     // Users
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store')->middleware('acl');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
