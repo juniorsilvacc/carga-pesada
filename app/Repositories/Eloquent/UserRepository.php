@@ -84,4 +84,9 @@ class UserRepository implements UserRepositoryInterface
 
         return true;
     }
+
+    public function hasPermission(User $user, string $permissionName): bool
+    {
+        return $user->permissions()->where('nome', $permissionName)->exists();
+    }
 }
